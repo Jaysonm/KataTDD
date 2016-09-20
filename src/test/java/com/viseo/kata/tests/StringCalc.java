@@ -49,4 +49,11 @@ public class StringCalc {
         assertEquals(15, operations);
     }
 
+    @Test
+    public void TestingDelimitersSupporting(){
+        final String nombre = "//:\n1:2";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(3, operations);
+    }
+
 }

@@ -10,9 +10,20 @@ public class StringCalculator {
 
         if (nombre.contains("\n") || nombre.contains(",")){
 
-            ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
-            for(Integer i : list){
-                nFinal += i;
+            if(nombre.contains("//")){
+                String[] split = SplitRegex(nombre, "\n");
+                String[] delimiter = SplitRegex(split[0], "//");
+
+                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(split[1], delimiter[1]));
+                for(Integer i : list){
+                    nFinal += i;
+                }
+            }
+            else{
+                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
+                for(Integer i : list){
+                    nFinal += i;
+                }
             }
 
         }
