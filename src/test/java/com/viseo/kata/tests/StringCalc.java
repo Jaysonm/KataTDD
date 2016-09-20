@@ -28,4 +28,18 @@ public class StringCalc {
         assertEquals(0, operations);
     }
 
+    @Test
+    public void calculateStringEqualTo6(){
+        final String nombre = "1,2,3";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(6, operations);
+    }
+
+    @Test
+    public void calculateStringEqualTo10(){
+        final String nombre = "1,2,3,4";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(10, operations);
+    }
+
 }
