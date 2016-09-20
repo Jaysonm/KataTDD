@@ -4,6 +4,7 @@ import com.viseo.kata.entities.StringCalculator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class StringCalc {
 
@@ -55,5 +56,12 @@ public class StringCalc {
         int operations = StringCalculator.add(nombre);
         assertEquals(3, operations);
     }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void TestingOneNegativeNumbers() throws IllegalArgumentException{
+        final String nombre = "1,2,-2,-1";
+        StringCalculator.add(nombre);
+    }
+
 
 }

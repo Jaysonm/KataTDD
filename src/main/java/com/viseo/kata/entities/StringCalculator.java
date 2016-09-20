@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 public class StringCalculator {
 
-    public static int add(String nombre) {
+    public static int add(String nombre) throws IllegalArgumentException {
 
         int nFinal = 0;
 
         if (nombre.contains("\n") || nombre.contains(",")){
-
             if(nombre.contains("//")){
                 String[] split = SplitRegex(nombre, "\n");
                 String[] delimiter = SplitRegex(split[0], "//");
@@ -22,7 +21,13 @@ public class StringCalculator {
             else{
                 ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
                 for(Integer i : list){
-                    nFinal += i;
+                    if(i < 0){
+
+                        throw new IllegalArgumentException("On ne peut pas additionner de nombre négatif" + i);
+                    }
+                    else{
+                        nFinal += i;
+                    }
                 }
             }
 
