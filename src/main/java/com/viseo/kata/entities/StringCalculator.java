@@ -8,23 +8,25 @@ public class StringCalculator {
 
         int nFinal = 0;
 
-        if (nombre.contains(",")) {
-            ArrayList<Integer> list = returnArrayStringToInt(nombre.split(","));
+        if (nombre.contains("\n") || nombre.contains(",")){
+
+            ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
             for(Integer i : list){
                 nFinal += i;
             }
+
         }
         else if(nombre.equals("")){
             nFinal = 0;
         }
         else{
             nFinal = Integer.parseInt(nombre);
-
         }
+
         return nFinal;
     }
 
-    private static ArrayList<Integer> returnArrayStringToInt(String[] listString){
+    private static ArrayList<Integer> ReturnArrayStringToInt(String[] listString){
         ArrayList<Integer> list = new ArrayList<Integer>();
         for(int i = 0; i < listString.length; i++){
             list.add(Integer.parseInt(listString[i]));
@@ -32,5 +34,8 @@ public class StringCalculator {
         return list;
     }
 
+    private static String[] SplitRegex(String list, String regex){
+        return list.split(regex);
+    }
 
 }

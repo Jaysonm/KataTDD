@@ -42,4 +42,11 @@ public class StringCalc {
         assertEquals(10, operations);
     }
 
+    @Test
+    public void calculateStringEqualTo15(){
+        final String nombre = "1,2\n3,4,5";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(15, operations);
+    }
+
 }
