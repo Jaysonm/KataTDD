@@ -86,12 +86,19 @@ public class StringCalc {
     }
 
     @Test
-    public void IgnoredNumberBiggerThan1000() throws IllegalArgumentException{
+    public void IgnoredNumberBiggerThan1000(){
         final String nombre = "1,2,1001";
         int operations = StringCalculator.add(nombre);
         assertEquals(3, operations);
         System.out.println("IgnoredNumberBiggerThan1000 = " + operations);
     }
 
+    @Test
+    public void DelimitersCanHaveAnyLength(){
+        final String nombre = "//[***]\n1***2***1001";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(3, operations);
+        System.out.println("DelimitersCanHaveAnyLength = " + operations);
+    }
 
 }

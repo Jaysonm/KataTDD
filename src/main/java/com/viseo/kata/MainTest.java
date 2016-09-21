@@ -4,13 +4,30 @@ public class MainTest {
 
     public static void main(String[] args) {
 
-        String caractere = "//;\n1;2;3;4";
+        final String nombre = "//[++]\n1++4++5++8++7";
 
-        String[] test = caractere.split("\n");
-        String[] test2 = test[0].split("//");
+        String[] split = nombre.split("\n");
+        String[] crochetSplit = split[0].split("]");
+        String[] delimiter = crochetSplit[0].split("//\\[");
+        System.out.println(delimiter[1]);
 
-        for(String t : test2){
-           System.out.println(t);
+        String nb = "";
+        String nb2 = delimiter[1].substring(delimiter[1].length()-1);
+
+        for(int i = 0; i < delimiter[1].length(); i++){
+            nb += "\\" + nb2;
         }
+
+        System.out.println(nb.length());
+        String test2 = "\\*\\*";
+
+        System.out.println(nb.equals(test2));
+
+        String[] test = split[1].split(nb);
+        System.out.println(split[1]);
+        for(String s : test){
+            System.out.println(s);
+        }
+        System.out.println(nb);
     }
 }

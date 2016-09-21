@@ -7,15 +7,37 @@ public class StringCalculator {
     public static int add(String nombre) throws IllegalArgumentException {
 
         int nFinal = 0;
+        String escapeString = "";
 
         if (nombre.contains("\n") || nombre.contains(",")){
             if(nombre.contains("//")){
-                String[] split = SplitRegex(nombre, "\n");
-                String[] delimiter = SplitRegex(split[0], "//");
 
-                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(split[1], delimiter[1]));
+                String[] split = SplitRegex(nombre, "\n");
+                String[] delimiter;
+                if(split[0].contains("[") && split[0].contains("]")){
+                    String[] crochetSplit = SplitRegex(split[0], "]");
+                    delimiter = SplitRegex(crochetSplit[0], "//\\[");
+                }
+                else{
+                    delimiter = SplitRegex(split[0], "//");
+                }
+
+                if(delimiter[1].length() >= 1){
+                    String getCharacter = delimiter[1].substring(delimiter[1].length()-1);
+
+                    for(int i = 0; i < delimiter[1].length(); i++){
+                        escapeString += "\\" + getCharacter;
+                    }
+
+                    String[] test = SplitRegex(split[1], escapeString);
+
+                }
+
+                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(split[1], escapeString));
                 for(Integer i : list){
-                    nFinal += i;
+                    if(i < 1000){
+                        nFinal += i;
+                    }
                 }
             }
             else{
