@@ -2,38 +2,61 @@ package com.viseo.kata.entities;
 
 import java.util.ArrayList;
 
+import static com.viseo.kata.entities.Utils.*;
+
 public class StringCalculator {
 
     public static int add(String nombre) throws IllegalArgumentException {
 
         int nFinal = 0;
-        String escapeString = "";
+        String characterBracket = "", escapeString = "", escapeStringFinal = "", character, characterBar;
+        String[] splitOperation, splitFirstDelimiter, characterBars, stringWithSlash;
 
         if (nombre.contains("\n") || nombre.contains(",")){
             if(nombre.contains("//")){
 
-                String[] split = SplitRegex(nombre, "\n");
-                String[] delimiter;
-                if(split[0].contains("[") && split[0].contains("]")){
-                    String[] crochetSplit = SplitRegex(split[0], "]");
-                    delimiter = SplitRegex(crochetSplit[0], "//\\[");
-                }
-                else{
-                    delimiter = SplitRegex(split[0], "//");
-                }
+                splitOperation = SplitRegex(nombre, "\n");
+                splitFirstDelimiter = SplitRegex(splitOperation[0],"//");
 
-                if(delimiter[1].length() >= 1){
-                    String getCharacter = delimiter[1].substring(delimiter[1].length()-1);
+                if(splitOperation[0].contains("[") && splitOperation[0].contains("]")){
+                    characterBars = splitFirstDelimiter[1].split("\\]\\[");
 
-                    for(int i = 0; i < delimiter[1].length(); i++){
-                        escapeString += "\\" + getCharacter;
+                    /* Séparé nos charactère par une barre oblique */
+                    for(String s : characterBars){
+                        characterBracket += s + "|";
                     }
 
-                    String[] test = SplitRegex(split[1], escapeString);
+                    characterBar = characterBracket.substring(characterBracket.indexOf("[") + 1, characterBracket.indexOf("]|"));
+
+                    if(characterBar.contains("|")){
+                        stringWithSlash = SplitRegex(characterBar,"\\|");
+
+                        for(String s : stringWithSlash){
+                            character = s.substring(s.length()-1);
+
+                            for(int i = 0; i < s.length(); i++){
+                                escapeString += "\\" + character;
+                            }
+
+                            escapeString += "|";
+                        }
+
+                        escapeStringFinal = escapeString.substring(0, escapeString.length()-1);
+                    }
+                    else{
+                        character = characterBar.substring(characterBar.length()-1);
+
+                        for(int i = 0; i < characterBar.length(); i++){
+                            escapeStringFinal += "\\" + character;
+                        }
+                    }
 
                 }
+                else{
+                    escapeStringFinal = splitFirstDelimiter[1];
+                }
 
-                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(split[1], escapeString));
+                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(splitOperation[1], escapeStringFinal));
                 for(Integer i : list){
                     if(i < 1000){
                         nFinal += i;
@@ -41,7 +64,7 @@ public class StringCalculator {
                 }
             }
             else{
-                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
+                ArrayList<Integer> list = Utils.ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
                 ArrayList<Integer> negativeNb = new ArrayList<Integer>();
                 for(Integer i : list){
                     if(i < 0){
@@ -75,16 +98,6 @@ public class StringCalculator {
         return nFinal;
     }
 
-    private static ArrayList<Integer> ReturnArrayStringToInt(String[] listString){
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < listString.length; i++){
-            list.add(Integer.parseInt(listString[i]));
-        }
-        return list;
-    }
 
-    private static String[] SplitRegex(String list, String regex){
-        return list.split(regex);
-    }
 
 }

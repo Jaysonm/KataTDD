@@ -101,4 +101,20 @@ public class StringCalc {
         System.out.println("DelimitersCanHaveAnyLength = " + operations);
     }
 
+    @Test
+    public void MultipleDelimitersWithOneCharacter(){
+        final String nombre = "//[*][;]\n1;2*1001";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(3, operations);
+        System.out.println("MultipleDelimitersWithOneCharacter = " + operations);
+    }
+
+    @Test
+    public void DelimitersCanBeInfinite2(){
+        final String nombre = "//[*****][;;][::]\n1;;2*****1151::3";
+        int operations = StringCalculator.add(nombre);
+        assertEquals(6, operations);
+        System.out.println("DelimitersCanBeInfinite2 = " + operations);
+    }
+
 }

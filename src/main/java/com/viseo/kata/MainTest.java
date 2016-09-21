@@ -4,30 +4,48 @@ public class MainTest {
 
     public static void main(String[] args) {
 
-        final String nombre = "//[++]\n1++4++5++8++7";
+        final String nombre = "//[**][;;]\n1;;4**5**8**7";
+        String stringWithCrochet = "", nb = "", character, crochet, escapeString = "";
+        String[] split, split2, crochets;
 
-        String[] split = nombre.split("\n");
-        String[] crochetSplit = split[0].split("]");
-        String[] delimiter = crochetSplit[0].split("//\\[");
-        System.out.println(delimiter[1]);
+        /* Split notre chaine pour seulement avoir les crochets */
+        split = nombre.split("\n");
+        split2 = split[0].split("//");
+        crochets = split2[1].split("\\]\\[");
 
-        String nb = "";
-        String nb2 = delimiter[1].substring(delimiter[1].length()-1);
-
-        for(int i = 0; i < delimiter[1].length(); i++){
-            nb += "\\" + nb2;
+        /* Séparé nos charactère par une barre oblique */
+        for(String s : crochets){
+            stringWithCrochet += s + "|";
         }
 
-        System.out.println(nb.length());
-        String test2 = "\\*\\*";
+        crochet = stringWithCrochet.substring(stringWithCrochet.indexOf("[") + 1, stringWithCrochet.indexOf("]|"));
 
-        System.out.println(nb.equals(test2));
+        if(crochet.contains("|")){
+            String[] stringWithSlash = crochet.split("\\|");
 
-        String[] test = split[1].split(nb);
-        System.out.println(split[1]);
-        for(String s : test){
-            System.out.println(s);
+            for(String s : stringWithSlash){
+                character = s.substring(s.length()-1);
+
+                for(int i = 0; i < s.length(); i++){
+                    nb += "\\" + character;
+                }
+                nb += "|";
+            }
+
+            escapeString = nb.substring(0, nb.length()-1);
         }
-        System.out.println(nb);
+        else{
+            character = crochet.substring(crochet.length()-1);
+
+            for(int i = 0; i < crochet.length(); i++){
+                nb += "\\" + character;
+            }
+        }
+
+        String[] test = split[1].split(escapeString);
+
+        for(String t : test){
+            System.out.println(t);
+        }
     }
 }
