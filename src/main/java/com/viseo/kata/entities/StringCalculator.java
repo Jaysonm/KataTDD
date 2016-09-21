@@ -20,14 +20,23 @@ public class StringCalculator {
             }
             else{
                 ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
+                ArrayList<Integer> negativeNb = new ArrayList<Integer>();
                 for(Integer i : list){
                     if(i < 0){
-
-                        throw new IllegalArgumentException("On ne peut pas additionner de nombre négatif" + i);
+                        negativeNb.add(i);
                     }
                     else{
                         nFinal += i;
                     }
+                }
+
+                if(negativeNb.size() > 0) {
+                    String nbString = " ";
+                    for (Integer iNegative : negativeNb){
+                        nbString += String.valueOf(iNegative) + " ";
+                    }
+                    throw new IllegalArgumentException("On ne peut pas additionner de nombre négatif" + nbString);
+
                 }
             }
 

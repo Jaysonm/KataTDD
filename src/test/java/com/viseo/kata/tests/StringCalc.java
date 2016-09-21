@@ -57,10 +57,15 @@ public class StringCalc {
         assertEquals(3, operations);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void TestingOneNegativeNumbers() throws IllegalArgumentException{
-        final String nombre = "1,2,-2,-1";
-        StringCalculator.add(nombre);
+        try{
+            final String nombre = "1,2,-2,-1,-5";
+            StringCalculator.add(nombre);
+        }
+        catch(IllegalArgumentException e){
+            System.out.println(e);
+        }
     }
 
 
