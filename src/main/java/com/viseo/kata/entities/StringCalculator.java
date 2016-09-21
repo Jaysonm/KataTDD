@@ -26,7 +26,9 @@ public class StringCalculator {
                         negativeNb.add(i);
                     }
                     else{
-                        nFinal += i;
+                        if(i < 1000){
+                            nFinal += i;
+                        }
                     }
                 }
 
