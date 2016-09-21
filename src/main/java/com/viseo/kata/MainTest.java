@@ -1,51 +1,34 @@
 package com.viseo.kata;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.viseo.kata.entities.Utils.*;
+
 public class MainTest {
 
     public static void main(String[] args) {
 
         final String nombre = "//[**][;;]\n1;;4**5**8**7";
-        String stringWithCrochet = "", nb = "", character, crochet, escapeString = "";
-        String[] split, split2, crochets;
 
-        /* Split notre chaine pour seulement avoir les crochets */
-        split = nombre.split("\n");
-        split2 = split[0].split("//");
-        crochets = split2[1].split("\\]\\[");
+        String[] splitOperation = SplitRegex(nombre, "//[(.*?)]\n");
 
-        /* Séparé nos charactère par une barre oblique */
-        for(String s : crochets){
-            stringWithCrochet += s + "|";
+        for(String s : splitOperation){
+            System.out.println(s);
         }
 
-        crochet = stringWithCrochet.substring(stringWithCrochet.indexOf("[") + 1, stringWithCrochet.indexOf("]|"));
+        System.out.println("**************");
 
-        if(crochet.contains("|")){
-            String[] stringWithSlash = crochet.split("\\|");
+        ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(1,2,3,-1));
+        ArrayList<Integer> list2 = new ArrayList<Integer>();
 
-            for(String s : stringWithSlash){
-                character = s.substring(s.length()-1);
-
-                for(int i = 0; i < s.length(); i++){
-                    nb += "\\" + character;
-                }
-                nb += "|";
-            }
-
-            escapeString = nb.substring(0, nb.length()-1);
-        }
-        else{
-            character = crochet.substring(crochet.length()-1);
-
-            for(int i = 0; i < crochet.length(); i++){
-                nb += "\\" + character;
-            }
+        for(Integer i : list){
+            System.out.println(i);
         }
 
-        String[] test = split[1].split(escapeString);
+        sum(list, list2);
 
-        for(String t : test){
-            System.out.println(t);
-        }
+        System.out.println(list2);
+
     }
 }

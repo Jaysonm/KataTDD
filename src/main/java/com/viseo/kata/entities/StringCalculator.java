@@ -8,9 +8,11 @@ public class StringCalculator {
 
     public static int add(String nombre) throws IllegalArgumentException {
 
-        int nFinal = 0;
-        String characterBracket = "", escapeString = "", escapeStringFinal = "", character, characterBar;
+        int nFinal;
+        String characterBracket = "", escapeString = "", escapeStringFinal = "", nbString = "", characterBar;
         String[] splitOperation, splitFirstDelimiter, characterBars, stringWithSlash;
+        ArrayList<Integer> list;
+        ArrayList<Integer> negativeNb = new ArrayList<Integer>();
 
         if (nombre.contains("\n") || nombre.contains(",")){
             if(nombre.contains("//")){
@@ -21,7 +23,6 @@ public class StringCalculator {
                 if(splitOperation[0].contains("[") && splitOperation[0].contains("]")){
                     characterBars = splitFirstDelimiter[1].split("\\]\\[");
 
-                    /* Séparé nos charactère par une barre oblique */
                     for(String s : characterBars){
                         characterBracket += s + "|";
                     }
@@ -32,59 +33,33 @@ public class StringCalculator {
                         stringWithSlash = SplitRegex(characterBar,"\\|");
 
                         for(String s : stringWithSlash){
-                            character = s.substring(s.length()-1);
-
-                            for(int i = 0; i < s.length(); i++){
-                                escapeString += "\\" + character;
-                            }
-
+                            escapeString = buildEscapeString(s, escapeString);
                             escapeString += "|";
                         }
 
                         escapeStringFinal = escapeString.substring(0, escapeString.length()-1);
                     }
                     else{
-                        character = characterBar.substring(characterBar.length()-1);
-
-                        for(int i = 0; i < characterBar.length(); i++){
-                            escapeStringFinal += "\\" + character;
-                        }
+                        escapeStringFinal = buildEscapeString(characterBar, escapeStringFinal);
                     }
-
                 }
                 else{
                     escapeStringFinal = splitFirstDelimiter[1];
                 }
 
-                ArrayList<Integer> list = ReturnArrayStringToInt(SplitRegex(splitOperation[1], escapeStringFinal));
-                for(Integer i : list){
-                    if(i < 1000){
-                        nFinal += i;
-                    }
-                }
+                list = ReturnArrayStringToInt(SplitRegex(splitOperation[1], escapeStringFinal));
             }
             else{
-                ArrayList<Integer> list = Utils.ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
-                ArrayList<Integer> negativeNb = new ArrayList<Integer>();
-                for(Integer i : list){
-                    if(i < 0){
-                        negativeNb.add(i);
-                    }
-                    else{
-                        if(i < 1000){
-                            nFinal += i;
-                        }
-                    }
-                }
+                list = ReturnArrayStringToInt(SplitRegex(nombre, "\n|,"));
+            }
 
-                if(negativeNb.size() > 0) {
-                    String nbString = " ";
-                    for (Integer iNegative : negativeNb){
-                        nbString += String.valueOf(iNegative) + " ";
-                    }
-                    throw new IllegalArgumentException("On ne peut pas additionner de nombre négatif" + nbString);
+            nFinal = sum(list, negativeNb);
 
+            if(negativeNb.size() > 0) {
+                for (Integer iNegative : negativeNb){
+                    nbString += String.valueOf(iNegative) + " ";
                 }
+                throw new IllegalArgumentException("On ne peut pas additionner de nombre négatif" + nbString);
             }
 
         }
